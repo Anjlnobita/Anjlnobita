@@ -1,0 +1,111 @@
+import telebot
+from telebot import types
+import youtube_dl
+import random
+import os
+
+API_TOKEN = '7214129382'
+bot = telebot.TeleBot(API_TOKEN)
+
+# Music player setup
+class MusicPlayer:
+    def __init__(self):
+        self.queue = []
+        self.is_playing = False
+
+    def play(self, url):
+        self.queue.append(url)
+        if not self.is_playing:
+            self.start_playing()
+
+    def start_playing(self):
+        if self.queue:
+            self.is_playing = True
+            # Logic to play music from the first URL in the queue
+            # This is a placeholder for actual music playing logic
+            print(f"Playing: {self.queue[0]}")
+
+    def skip(self):
+        if self.queue:
+            self.queue.pop(0)
+            self.start_playing()
+
+    def stop(self):
+        self.queue.clear()
+        self.is_playing = False
+
+    def random_song(self):
+        if self.queue:
+            random_song = random.choice(self.queue)
+            self.queue.clear()
+            self.queue.append(random_song)
+            self.start_playing()
+
+music_player = MusicPlayer()
+
+@bot.message_handler(commands=['play'])
+def play_song(message):
+    url = message.text.split()[1]
+    music_player.play(url)
+    bot.reply_to(message, f"Added to queue: {url}")
+
+@bot.message_handler(commands=['skip'])
+def skip_song(message):
+    music_player.skip()
+    bot.reply_to(message, "Skipped to the next song.")
+
+@bot.message_handler(commands=['stop'])
+def stop_song(message):
+    music_player.stop()
+    bot.reply_to(message, "Stopped playing music.")
+
+@bot.message_handler(commands=['random'])
+def random_song(message):
+    music_player.random_song()
+    bot.reply_to(message, "Playing a random song.")
+
+@bot.message_handler(commands=['ban'])
+def ban_user(message):
+    user_id = message.text.split()[1]
+    # Logic to ban user
+    bot.reply_to(message, f"Banned user: {user_id}")
+
+@bot.message_handler(commands=['unban'])
+def unban_user(message):
+    user_id = message.text.split()[1]
+    # Logic to unban user
+    bot.reply_to(message, f"Unbanned user: {user_id}")
+
+@bot.message_handler(commands=['kick'])
+def kick_user(message):
+    user_id = message.text.split()[1]
+    # Logic to kick user
+    bot.reply_to(message, f"Kicked user: {user_id}")
+
+@bot.message_handler(commands=['mute'])
+def mute_user(message):
+    user_id = message.text.split()[1]
+    # Logic to mute user
+    bot.reply_to(message, f"Muted user: {user_id}")
+
+@bot.message_handler(commands=['unmute'])
+def unmute_user(message):
+    user_id = message.text.split()[1]
+    # Logic to unmute user
+    bot.reply_to(message, f"Unmuted user: {user_id}")
+
+@bot.message_handler(commands=['info'])
+def info_command(message):
+    # Logic to find information about a picture using Google Lens
+    bot.reply_to(message, "Information about the picture.")
+
+@bot.message_handler(commands=['host'])
+def host_command(message):
+    bot.reply_to(message, "You are now the host.")
+
+@bot.message_handler(commands=['nobita'])
+def ai_chat(message):
+    # Logic for AI chat features
+    bot.reply_to(message, "AI chat response.")
+
+bot.polling()
