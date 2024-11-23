@@ -1,4 +1,4 @@
-###
+"""
 To further advance your Telegram bot by adding more features, enhancing owner commands, and improving error handling, we can implement several additional functionalities. Below is a comprehensive approach to improve the bot:
 
 ### New Features to Implement
@@ -27,7 +27,7 @@ Here’s the complete bot code with the added features and improvements:
 
 ```python
 
-###
+"""
 
 import os
 import openai
